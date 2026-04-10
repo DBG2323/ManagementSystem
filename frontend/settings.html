@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .settings-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .settings-section h3 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #007bff;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">后台管理系统</div>
+        <nav>
+            <a href="dashboard.html" class="nav-item">仪表盘</a>
+            <a href="table.html" class="nav-item">数据管理</a>
+            <a href="settings.html" class="nav-item active">系统设置</a>
+            <a href="login.html" class="nav-item">退出登录</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <span class="page-title">系统设置</span>
+            <span class="user-info">欢迎，管理员</span>
+        </header>
+        <div class="content">
+            <div class="settings-container">
+                <div id="message" class="message"></div>
+                
+                <div class="settings-section">
+                    <h3>基本设置</h3>
+                    <div class="form-group">
+                        <label>系统名称</label>
+                        <input type="text" id="systemName" value="管理系统">
+                    </div>
+                    <div class="form-group">
+                        <label>系统描述</label>
+                        <textarea id="systemDesc">企业级管理系统</textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveBasicSettings()">保存</button>
+                </div>
+
+                <div class="settings-section">
+                    <h3>用户设置</h3>
+                    <div class="form-group">
+                        <label>默认用户角色</label>
+                        <select id="defaultRole">
+                            <option value="user">普通用户</option>
+                            <option value="admin">管理员</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>密码最小长度</label>
+                        <input type="number" id="minPasswordLength" value="6" min="4" max="32">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveUserSettings()">保存</button>
+                </div>
+
+                <div class="settings-section">
+                    <h3>安全设置</h3>
+                    <div class="form-group">
+                        <label>开启两步验证</label>
+                        <label class="switch">
+                            <input type="checkbox" id="twoFactorAuth">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>会话超时（分钟）</label>
+                        <input type="number" id="sessionTimeout" value="30" min="5" max="1440">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveSecuritySettings()">保存</button>
+                </div>
+
+                <div class="settings-section">
+                    <h3>通知设置</h3>
+                    <div class="form-group">
+                        <label>启用邮件通知</label>
+                        <label class="switch">
+                            <input type="checkbox" id="emailNotify">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>启用短信通知</label>
+                        <label class="switch">
+                            <input type="checkbox" id="smsNotify">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveNotifySettings()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+    <script>
+        function showMessage(msg, isError = false) {
+            const el = document.getElementById('message');
+            el.textContent = msg;
+            el.className = 'message ' + (isError ? 'error' : 'success');
+            setTimeout(() => el.className = 'message', 3000);
+        }
+
+        function saveBasicSettings() {
+            const data = {
+                systemName: document.getElementById('systemName').value,
+                systemDesc: document.getElementById('systemDesc').value
+            };
+            fetch(`${API_BASE}/settings/basic`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => res.json()).then(result => {
+                showMessage('基本设置已保存');
+            }).catch(err => showMessage('保存失败', true));
+        }
+
+        function saveUserSettings() {
+            const data = {
+                defaultRole: document.getElementById('defaultRole').value,
+                minPasswordLength: parseInt(document.getElementById('minPasswordLength').value)
+            };
+            fetch(`${API_BASE}/settings/user`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => res.json()).then(result => {
+                showMessage('用户设置已保存');
+            }).catch(err => showMessage('保存失败', true));
+        }
+
+        function saveSecuritySettings() {
+            const data = {
+                twoFactorAuth: document.getElementById('twoFactorAuth').checked,
+                sessionTimeout: parseInt(document.getElementById('sessionTimeout').value)
+            };
+            fetch(`${API_BASE}/settings/security`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => res.json()).then(result => {
+                showMessage('安全设置已保存');
+            }).catch(err => showMessage('保存失败', true));
+        }
+
+        function saveNotifySettings() {
+            const data = {
+                emailNotify: document.getElementById('emailNotify').checked,
+                smsNotify: document.getElementById('smsNotify').checked
+            };
+            fetch(`${API_BASE}/settings/notify`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => res.json()).then(result => {
+                showMessage('通知设置已保存');
+            }).catch(err => showMessage('保存失败', true));
+        }
+
+        fetch(`${API_BASE}/settings`).then(res => res.json()).then(data => {
+            if (data.systemName) document.getElementById('systemName').value = data.systemName;
+            if (data.systemDesc) document.getElementById('systemDesc').value = data.systemDesc;
+            if (data.defaultRole) document.getElementById('defaultRole').value = data.defaultRole;
+            if (data.minPasswordLength) document.getElementById('minPasswordLength').value = data.minPasswordLength;
+            if (data.twoFactorAuth) document.getElementById('twoFactorAuth').checked = data.twoFactorAuth;
+            if (data.sessionTimeout) document.getElementById('sessionTimeout').value = data.sessionTimeout;
+            if (data.emailNotify) document.getElementById('emailNotify').checked = data.emailNotify;
+            if (data.smsNotify) document.getElementById('smsNotify').checked = data.smsNotify;
+        });
+    </script>
+</body>
+</html>
