@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据管理 - 管理系统</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">后台管理系统</div>
+        <nav>
+            <a href="dashboard.html" class="nav-item">仪表盘</a>
+            <a href="table.html" class="nav-item active">数据管理</a>
+            <a href="#" class="nav-item">系统设置</a>
+            <a href="login.html" class="nav-item">退出登录</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <span class="page-title">数据管理</span>
+            <span class="user-info">欢迎，管理员</span>
+        </header>
+        <div class="content">
+            <div class="toolbar">
+                <input type="text" placeholder="搜索..." class="search-input">
+                <button class="btn-primary">新增</button>
+                <button class="btn-secondary">导出</button>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>邮箱</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td>1</td>
+                        <td>admin</td>
+                        <td>admin@example.com</td>
+                        <td><span class="badge badge-success">正常</span></td>
+                        <td>2026-01-01</td>
+                        <td>
+                            <button class="btn-link">编辑</button>
+                            <button class="btn-link">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>user01</td>
+                        <td>user01@example.com</td>
+                        <td><span class="badge badge-success">正常</span></td>
+                        <td>2026-01-02</td>
+                        <td>
+                            <button class="btn-link">编辑</button>
+                            <button class="btn-link">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>user02</td>
+                        <td>user02@example.com</td>
+                        <td><span class="badge badge-warning">待审核</span></td>
+                        <td>2026-01-03</td>
+                        <td>
+                            <button class="btn-link">编辑</button>
+                            <button class="btn-link">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <button class="btn-page">上一页</button>
+                <span class="page-info">第 1 页，共 10 页</span>
+                <button class="btn-page">下一页</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
